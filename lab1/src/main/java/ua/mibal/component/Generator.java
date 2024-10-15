@@ -1,6 +1,6 @@
 package ua.mibal.component;
 
-import ua.mibal.model.Person;
+import ua.mibal.model.Participant;
 
 import java.time.LocalDate;
 import java.util.stream.Stream;
@@ -9,17 +9,17 @@ import java.util.stream.Stream;
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
-public class PersonGenerator {
+public class Generator {
     private static final String[] firstNames = { "Олександр", "Микола", "Ольга", "Ірина", "Дмитро" };
     private static final String[] lastNames = { "Ковальчук", "Петренко", "Іванов", "Сидоренко", "Бондар" };
     private static final String[] cities = { "Київ", "Львів", "Одеса", "Харків", "Дніпро" };
 
-    public Stream<Person> generate() {
+    public Stream<Participant> generate() {
         return Stream.generate(this::createPerson);
     }
 
-    private Person createPerson() {
-        return new Person(
+    private Participant createPerson() {
+        return new Participant(
                 randomOf(firstNames),
                 randomOf(lastNames),
                 randomBirthDate(),
