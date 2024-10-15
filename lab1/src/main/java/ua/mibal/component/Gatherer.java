@@ -12,6 +12,10 @@ import java.util.stream.Stream;
 public class Gatherer {
 
     public static List<Participant> gather(Stream<Participant> participants, String cityToSkip, int skipCount, int limit) {
-        return null;
+        return participants
+                .filter(p -> !p.city().equalsIgnoreCase(cityToSkip))
+                .skip(skipCount)
+                .limit(limit)
+                .toList();
     }
 }
