@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import java.util.stream.Stream;
 
 /**
+ * This class generates random participants.
+ * <p>
+ * It is used to generate random participants for the application.
+ * It is a component class, which means that it is used to perform a specific task.
+ *
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
