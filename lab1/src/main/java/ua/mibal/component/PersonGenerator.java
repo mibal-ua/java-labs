@@ -2,7 +2,7 @@ package ua.mibal.component;
 
 import ua.mibal.model.Person;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.stream.Stream;
 
 /**
@@ -10,41 +10,40 @@ import java.util.stream.Stream;
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 public class PersonGenerator {
-    
-    public Stream<Person> generate(int count) {
-        return Stream
-                .generate(this::createPerson)
-                .limit(count);
+    private static final String[] firstNames = { "Олександр", "Микола", "Ольга", "Ірина", "Дмитро" };
+    private static final String[] lastNames = { "Ковальчук", "Петренко", "Іванов", "Сидоренко", "Бондар" };
+    private static final String[] cities = { "Київ", "Львів", "Одеса", "Харків", "Дніпро" };
+
+    public Stream<Person> generate() {
+        return Stream.generate(this::createPerson);
     }
 
     private Person createPerson() {
         return new Person(
-                randomFirstName(),
-                randomLastName(),
+                randomOf(firstNames),
+                randomOf(lastNames),
                 randomBirthDate(),
-                randomCity(),
-                randomSalary()
+                randomOf(cities),
+                randomMonthlyIncome()
         );
     }
 
-    // todo: implement random values generation
-    private String randomFirstName() {
-        return "John";
+    private LocalDate randomBirthDate() {
+        int year = 1970 + randomTo(35);
+        int month = 1 + randomTo(12);
+        int day = 1 + randomTo(28);
+        return LocalDate.of(year, month, day);
     }
 
-    private String randomLastName() {
-        return "Doe";
+    private Integer randomMonthlyIncome() {
+        return 20_000 + randomTo(100_000);
     }
 
-    private Date randomBirthDate() {
-        return new Date();
+    private String randomOf(String[] array) {
+        return array[randomTo(array.length)];
     }
 
-    private String randomCity() {
-        return "New York";
-    }
-
-    private Integer randomSalary() {
-        return 1000;
+    private int randomTo(int limit) {
+        return (int) (Math.random() * limit);
     }
 }
