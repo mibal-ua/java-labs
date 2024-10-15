@@ -19,11 +19,11 @@ public class Generator {
     private static final String[] lastNames = { "Ковальчук", "Петренко", "Іванов", "Сидоренко", "Бондар" };
     private static final String[] cities = { "Київ", "Львів", "Одеса", "Харків", "Дніпро" };
 
-    public Stream<Participant> generate() {
+    public static Stream<Participant> generate() {
         return Stream.generate(this::createPerson);
     }
 
-    private Participant createPerson() {
+    private static Participant createPerson() {
         return new Participant(
                 randomOf(firstNames),
                 randomOf(lastNames),
@@ -33,22 +33,22 @@ public class Generator {
         );
     }
 
-    private LocalDate randomBirthDate() {
+    private static LocalDate randomBirthDate() {
         int year = 1970 + randomTo(35);
         int month = 1 + randomTo(12);
         int day = 1 + randomTo(28);
         return LocalDate.of(year, month, day);
     }
 
-    private Integer randomMonthlyIncome() {
+    private static Integer randomMonthlyIncome() {
         return 20_000 + randomTo(100_000);
     }
 
-    private String randomOf(String[] array) {
+    private static String randomOf(String[] array) {
         return array[randomTo(array.length)];
     }
 
-    private int randomTo(int limit) {
+    private static int randomTo(int limit) {
         return (int) (Math.random() * limit);
     }
 }
