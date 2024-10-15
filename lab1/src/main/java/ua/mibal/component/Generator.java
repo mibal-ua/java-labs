@@ -20,7 +20,7 @@ public class Generator {
     private static final String[] cities = { "Київ", "Львів", "Одеса", "Харків", "Дніпро" };
 
     public static Stream<Participant> generate() {
-        return Stream.generate(this::createPerson);
+        return Stream.generate(Generator::createPerson);
     }
 
     private static Participant createPerson() {
