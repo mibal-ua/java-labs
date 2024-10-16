@@ -1,7 +1,9 @@
 package ua.mibal;
 
+import ua.mibal.component.MonthlyIncomeStatisticGeneratorCollector;
 import ua.mibal.component.Gatherer;
 import ua.mibal.component.Generator;
+import ua.mibal.model.MonthlyIncomeStatistics;
 import ua.mibal.model.Participant;
 
 import java.time.Period;
@@ -25,7 +27,11 @@ public class Launcher {
         List<Participant> filteredByAge = filterByAge(gathered, 20, 35);
         Map<String, List<Participant>> groupedByName = groupByName(filteredByAge);
 
-        // todo 6, 7
+        MonthlyIncomeStatistics monthlyIncome = gathered.stream()
+                .collect(new MonthlyIncomeStatisticGeneratorCollector());
+        System.out.println(monthlyIncome);
+
+        // todo 7
 
         groupedByName.forEach((name, list) -> {
             System.out.println(name + ":");
