@@ -10,6 +10,10 @@ import static java.time.LocalDate.now;
 import static java.util.stream.Collectors.groupingBy;
 
 /**
+ *
+ * This class is a part of the Laboratory work solution.
+ * Represents task 5
+ *
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */

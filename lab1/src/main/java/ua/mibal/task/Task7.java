@@ -5,6 +5,10 @@ import ua.mibal.model.Participant;
 import java.util.List;
 
 /**
+ *
+ * This class is a part of the Laboratory work solution.
+ * Represents task 7
+ *
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
