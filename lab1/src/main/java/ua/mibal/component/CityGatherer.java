@@ -17,7 +17,7 @@ import java.util.stream.Gatherer;
  * <p>Example usage:</p>
  * <pre>
  * Stream<Participant> participants = // ... stream of participants
- * List<Participant> result = participants.gather(new CityGatherer("Kyiv", 5, 100))
+ * List<Participant> result = participants.gather(new CityGatherer("Kиїв", 5, 100))
  *                                       .toList();
  * </pre>
  *

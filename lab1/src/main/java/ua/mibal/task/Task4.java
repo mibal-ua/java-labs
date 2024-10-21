@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 public class Task4 {
     public static List<Participant> get(Stream<Participant> participants) {
         return participants
-                .gather(new CityGatherer("Київ", 10, 10))
+                .gather(new CityGatherer("Київ", 10, 500))
                 .toList();
     }
 }
