@@ -11,6 +11,20 @@ import java.util.function.Supplier;
 import java.util.stream.Collector;
 
 /**
+ * A {@link Collector} implementation for generating monthly income statistics from {@link Participant} objects.
+ * This collector accumulates {@link Participant} instances into a {@link MonthlyIncomeStatistics} object,
+ * which provides statistical information about the participants' monthly incomes.
+ *
+ * <p>This collector can be used in Java streams to efficiently gather income statistics
+ * from a collection of {@link Participant} objects.</p>
+ *
+ * <p>Usage example:</p>
+ * <pre>
+ * List<Participant> participants = // ... list of participants
+ * MonthlyIncomeStatistics statistics = participants.stream()
+ *     .collect(new MonthlyIncomeStatisticGeneratorCollector());
+ * </pre>
+ *
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
