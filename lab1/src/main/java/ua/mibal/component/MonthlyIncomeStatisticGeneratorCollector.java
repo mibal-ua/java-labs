@@ -15,25 +15,31 @@ import java.util.stream.Collector;
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 public class MonthlyIncomeStatisticGeneratorCollector implements Collector<Participant, MonthlyIncomeStatistics, MonthlyIncomeStatistics> {
-// todo
+
     @Override
     public Supplier<MonthlyIncomeStatistics> supplier() {
-        return null;
+        return MonthlyIncomeStatistics::new;
     }
 
     @Override
     public BiConsumer<MonthlyIncomeStatistics, Participant> accumulator() {
-        return null;
+        return (stats, participant) -> {
+            int income = participant.monthlyIncome();
+            stats.record(income);
+        };
     }
 
     @Override
     public BinaryOperator<MonthlyIncomeStatistics> combiner() {
-        return null;
+        return (stats1, stats2) -> {
+            stats1.record(stats2);
+            return stats1;
+        };
     }
 
     @Override
     public Function<MonthlyIncomeStatistics, MonthlyIncomeStatistics> finisher() {
-        return null;
+        return Function.identity();
     }
 
     @Override

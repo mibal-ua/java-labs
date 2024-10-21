@@ -22,12 +22,19 @@ public class Launcher {
 
     public static void main(String[] args) {
         Stream<Participant> participants = Generator.generate();
-        Stream<Participant> gathered = participants.gather(new CityGatherer("Київ", 10, 500));
+        List<Participant> gathered = participants
+                .gather(new CityGatherer("Київ", 10, 10))
+                .toList();
 
         List<Participant> filteredByAge = filterByAge(gathered, 20, 35);
         Map<String, List<Participant>> groupedByName = groupByName(filteredByAge);
 
-        MonthlyIncomeStatistics monthlyIncome = gathered
+        System.out.println(
+                "calc statistics for: " + gathered.stream()
+                        .map(Participant::monthlyIncome)
+                        .toList()
+        );
+        MonthlyIncomeStatistics monthlyIncome = gathered.stream()
                 .collect(new MonthlyIncomeStatisticGeneratorCollector());
         System.out.println(monthlyIncome);
 
@@ -45,8 +52,8 @@ public class Launcher {
                 .collect(groupingBy(Participant::firstName));
     }
 
-    private static List<Participant> filterByAge(Stream<Participant> participants, int min, int max) {
-        return participants
+    private static List<Participant> filterByAge(List<Participant> participants, int min, int max) {
+        return participants.stream()
                 .filter(p -> {
                     Period period = Period.between(p.birthDate(), now());
                     int age = period.getYears();
