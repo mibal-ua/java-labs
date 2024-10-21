@@ -6,10 +6,17 @@ import java.time.LocalDate;
 import java.util.stream.Stream;
 
 /**
- * This class generates random participants.
+ * A utility class for generating random {@link Participant} objects.
  * <p>
- * It is used to generate random participants for the application.
- * It is a component class, which means that it is used to perform a specific task.
+ * This class provides functionality to create a stream of random participants
+ * with realistic data for testing or demonstration purposes. It generates
+ * random names, birth dates, cities, and monthly incomes for each participant.
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * Stream<Participant> participants = Generator.generate();
+ * participants.limit(10).forEach(System.out::println);
+ * </pre>
  *
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
