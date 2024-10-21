@@ -1,18 +1,14 @@
 package ua.mibal;
 
-import ua.mibal.component.MonthlyIncomeStatisticGeneratorCollector;
-import ua.mibal.component.CityGatherer;
-import ua.mibal.component.Generator;
-import ua.mibal.model.MonthlyIncomeStatistics;
 import ua.mibal.model.Participant;
+import ua.mibal.task.Task3;
+import ua.mibal.task.Task4;
+import ua.mibal.task.Task5;
+import ua.mibal.task.Task6;
+import ua.mibal.task.Task7;
 
-import java.time.Period;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
-
-import static java.time.LocalDate.now;
-import static java.util.stream.Collectors.groupingBy;
 
 /**
  * @author Mykhailo Balakhon
@@ -21,44 +17,14 @@ import static java.util.stream.Collectors.groupingBy;
 public class Launcher {
 
     public static void main(String[] args) {
-        Stream<Participant> participants = Generator.generate();
-        List<Participant> gathered = participants
-                .gather(new CityGatherer("Київ", 10, 10))
-                .toList();
+        Stream<Participant> participants = Task3.get();
 
-        List<Participant> filteredByAge = filterByAge(gathered, 20, 35);
-        Map<String, List<Participant>> groupedByName = groupByName(filteredByAge);
+        List<Participant> gathered = Task4.get(participants);
 
-        System.out.println(
-                "calc statistics for: " + gathered.stream()
-                        .map(Participant::monthlyIncome)
-                        .toList()
-        );
-        MonthlyIncomeStatistics monthlyIncome = gathered.stream()
-                .collect(new MonthlyIncomeStatisticGeneratorCollector());
-        System.out.println(monthlyIncome);
+        Task5.complete(gathered);
 
-        // todo 7
-
-        groupedByName.forEach((name, list) -> {
-            System.out.println(name + ":");
-            list.forEach(System.out::println);
-            System.out.println();
-        });
-    }
-
-    private static Map<String, List<Participant>> groupByName(List<Participant> participants) {
-        return participants.stream()
-                .collect(groupingBy(Participant::firstName));
-    }
-
-    private static List<Participant> filterByAge(List<Participant> participants, int min, int max) {
-        return participants.stream()
-                .filter(p -> {
-                    Period period = Period.between(p.birthDate(), now());
-                    int age = period.getYears();
-                    return min <= age && age <= max;
-                })
-                .toList();
+        Task6.complete(gathered);
+        
+        Task7.complete(gathered);
     }
 }
