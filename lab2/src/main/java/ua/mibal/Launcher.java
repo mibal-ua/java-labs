@@ -18,7 +18,7 @@ public class Launcher {
                 .year(2008)
                 .build();
 
-        XmlModel cleanCodeXml = serializer.serialize(cleanCode); 
+        XmlModel cleanCodeXml = serializer.serializeModel(cleanCode); 
         System.out.println(cleanCodeXml);
     }
 }
