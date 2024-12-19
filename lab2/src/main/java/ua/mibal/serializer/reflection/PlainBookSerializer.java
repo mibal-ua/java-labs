@@ -1,4 +1,4 @@
-package ua.mibal.serializer;
+package ua.mibal.serializer.reflection;
 
 import ua.mibal.demo.model.Book;
 

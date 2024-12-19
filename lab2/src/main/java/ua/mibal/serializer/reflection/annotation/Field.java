@@ -1,23 +1,25 @@
-package ua.mibal.serializer.annotation;
+package ua.mibal.serializer.reflection.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Annotation for marking classes that should be serialized to XML.
+ * The annotation is used to mark a field that should be serialized to XML.
  * 
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
-@Target({ TYPE })
+@Target({ FIELD })
 @Retention(RUNTIME)
-public @interface XmlModel {
+public @interface Field {
 
     /**
-     * @return the name of the XML element
+     * The name of the field in the XML.
+     * 
+     * @return the name of the field in the XML
      */
     String value() default "";
 }

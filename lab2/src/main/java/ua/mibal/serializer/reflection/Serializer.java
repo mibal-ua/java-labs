@@ -1,11 +1,11 @@
-package ua.mibal.serializer;
+package ua.mibal.serializer.reflection;
 
-import ua.mibal.serializer.component.ModelValidator;
-import ua.mibal.serializer.component.XmlModelValidator;
-import ua.mibal.serializer.exception.SerializationException;
-import ua.mibal.serializer.model.JsonModel;
-import ua.mibal.serializer.model.SerializationModel;
-import ua.mibal.serializer.model.XmlModel;
+import ua.mibal.serializer.reflection.component.ModelValidator;
+import ua.mibal.serializer.reflection.component.XmlModelValidator;
+import ua.mibal.serializer.reflection.exception.SerializationException;
+import ua.mibal.serializer.reflection.model.JsonModel;
+import ua.mibal.serializer.reflection.model.SerializationModel;
+import ua.mibal.serializer.reflection.model.XmlModel;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -48,8 +48,8 @@ public class Serializer {
         Map<String, Object> properties = new HashMap<>();
 
         for (Field field : clazz.getDeclaredFields()) {
-            if (field.isAnnotationPresent(ua.mibal.serializer.annotation.Field.class)) {
-                ua.mibal.serializer.annotation.Field annotation = field.getAnnotation(ua.mibal.serializer.annotation.Field.class);
+            if (field.isAnnotationPresent(ua.mibal.serializer.reflection.annotation.Field.class)) {
+                ua.mibal.serializer.reflection.annotation.Field annotation = field.getAnnotation(ua.mibal.serializer.reflection.annotation.Field.class);
                 String key = annotation.value().isEmpty()
                         ? field.getName()
                         : annotation.value();
@@ -93,8 +93,8 @@ public class Serializer {
     private XmlModel mapToXml(Object model) {
         Class<?> clazz = model.getClass();
 
-        ua.mibal.serializer.annotation.XmlModel xmlModelName =
-                clazz.getAnnotation(ua.mibal.serializer.annotation.XmlModel.class);
+        ua.mibal.serializer.reflection.annotation.XmlModel xmlModelName =
+                clazz.getAnnotation(ua.mibal.serializer.reflection.annotation.XmlModel.class);
         String modelName = xmlModelName.value().isEmpty()
                 ? lowerCaseFirstLetter(clazz.getSimpleName())
                 : xmlModelName.value();

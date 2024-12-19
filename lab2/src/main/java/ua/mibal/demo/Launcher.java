@@ -5,8 +5,8 @@ import ua.mibal.demo.model.Book;
 import ua.mibal.demo.model.Car;
 import ua.mibal.demo.model.NonSerializable;
 import ua.mibal.demo.model.Transaction;
-import ua.mibal.serializer.Serializer;
-import ua.mibal.serializer.exception.SerializationException;
+import ua.mibal.serializer.reflection.Serializer;
+import ua.mibal.serializer.reflection.exception.SerializationException;
 
 /**
  * @author Mykhailo Balakhon

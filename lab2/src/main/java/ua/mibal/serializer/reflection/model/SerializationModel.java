@@ -1,4 +1,4 @@
-package ua.mibal.serializer.model;
+package ua.mibal.serializer.reflection.model;
 
 import lombok.Getter;
 

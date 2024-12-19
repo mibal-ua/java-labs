@@ -1,6 +1,6 @@
-package ua.mibal.serializer.component;
+package ua.mibal.serializer.reflection.component;
 
-import ua.mibal.serializer.exception.SerializationException;
+import ua.mibal.serializer.reflection.exception.SerializationException;
 
 import java.io.Serializable;
 

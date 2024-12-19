@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ua.mibal.serializer.annotation.Field;
-import ua.mibal.serializer.annotation.XmlModel;
+import ua.mibal.serializer.reflection.annotation.Field;
+import ua.mibal.serializer.reflection.annotation.XmlModel;
 
 /**
  * @author Mykhailo Balakhon

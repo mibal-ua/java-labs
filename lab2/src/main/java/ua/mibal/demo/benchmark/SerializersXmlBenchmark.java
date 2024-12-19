@@ -6,8 +6,8 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import ua.mibal.demo.model.Book;
-import ua.mibal.serializer.PlainBookSerializer;
-import ua.mibal.serializer.Serializer;
+import ua.mibal.serializer.reflection.PlainBookSerializer;
+import ua.mibal.serializer.reflection.Serializer;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.openjdk.jmh.annotations.Mode.AverageTime;
