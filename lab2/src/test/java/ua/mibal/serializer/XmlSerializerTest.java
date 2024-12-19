@@ -33,6 +33,12 @@ public class XmlSerializerTest {
     }
 
     @Test
+    void serializeModel_notAnXmlModel() {
+        assertThrows(XmlSerializationException.class,
+                () -> serializer.serializeModel(new TestNotXmlModel()));
+    }
+
+    @Test
     void serializeModel() {
         TestClass testClass = TestClass.builder()
                 .name("John")
@@ -41,29 +47,33 @@ public class XmlSerializerTest {
                 .build();
 
         XmlModel actual = serializer.serializeModel(testClass);
-        
+
         assertThat(actual).isNotNull();
-        assertThat(actual.get("name")).equals("John");
-        assertThat(actual.get("age")).equals(25);
-        assertThat(actual.get("isMale")).equals(true);
+        assertThat(actual.getName()).equals("test");
+        assertThat(actual.getProperty("name")).equals("John");
+        assertThat(actual.getProperty("age")).equals(25);
+        assertThat(actual.getProperty("male")).equals(true);
     }
 
     @Builder
+    @ua.mibal.serializer.annotation.XmlModel("test")
     private static class TestClass implements Serializable {
         @Field
         private String name;
         @Field
         private int age;
-        @Field
+        @Field("male")
         private boolean isMale;
     }
 
+    @ua.mibal.serializer.annotation.XmlModel("lol123")
     private static class TestNotSerializable {
         @Field
         private String name;
+    }
+
+    private static class TestNotXmlModel implements Serializable {
         @Field
-        private int age;
-        @Field
-        private boolean isMale;
+        private String name;
     }
 }

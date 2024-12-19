@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.mibal.serializer.annotation.XmlModel;
 
 import java.io.Serializable;
 
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+@XmlModel
 public class Car implements Serializable {
     private String brand;
     private String model;

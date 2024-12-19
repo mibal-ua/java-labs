@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import ua.mibal.serializer.annotation.Field;
+import ua.mibal.serializer.annotation.XmlModel;
 
 import java.io.Serializable;
 
@@ -18,6 +19,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+@XmlModel
 public class Book implements Serializable {
     @Field("title")
     private String title;

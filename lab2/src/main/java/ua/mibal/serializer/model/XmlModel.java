@@ -1,5 +1,8 @@
 package ua.mibal.serializer.model;
 
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,13 +10,22 @@ import java.util.Map;
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
-public class XmlModel extends HashMap<String, Object> {
-
-    public XmlModel(Map<String, Object> source) {
-        super(source);
+@Getter
+@Builder
+public class XmlModel {
+    private final String name;
+    private final Map<String, Object> properties;
+    
+    public XmlModel() {
+        this(null, Map.of());
     }
 
-    public static XmlModel of(Map<String, Object> source) {
-        return new XmlModel(source);
+    public XmlModel(String name, Map<String, Object> properties) {
+        this.name = name;
+        this.properties = new HashMap<>(properties);
+    }
+
+    public Object getProperty(String key) {
+        return properties.get(key);
     }
 }

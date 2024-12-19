@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import ua.mibal.serializer.annotation.Field;
+import ua.mibal.serializer.annotation.XmlModel;
 
 /**
  * @author Mykhailo Balakhon
@@ -16,6 +17,7 @@ import ua.mibal.serializer.annotation.Field;
 @AllArgsConstructor
 @Getter
 @Setter
+@XmlModel
 public class NonSerializable {
     @Field
     private String name;
