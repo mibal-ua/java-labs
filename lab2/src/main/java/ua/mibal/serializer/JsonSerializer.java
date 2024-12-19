@@ -3,6 +3,8 @@ package ua.mibal.serializer;
 import ua.mibal.serializer.component.ModelValidator;
 import ua.mibal.serializer.model.JsonModel;
 
+import java.util.Map;
+
 /**
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
@@ -29,7 +31,22 @@ public class JsonSerializer extends Serializer<JsonModel> {
     }
 
     private String mapToString(JsonModel jsonModel) {
-        //todo
-        return "";
+        Map<String, Object> properties = jsonModel.getProperties();
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("{");
+        properties.forEach((key, value) -> {
+            builder.append("\"").append(key).append("\":");
+            if (value instanceof String) {
+                builder.append("\"").append(value).append("\"");
+            } else {
+                builder.append(value);
+            }
+            builder.append(",");
+        });
+        builder.deleteCharAt(builder.length() - 1);
+        builder.append("}");
+
+        return builder.toString();
     }
 }
