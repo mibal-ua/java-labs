@@ -1,4 +1,4 @@
-package ua.mibal.demo;
+package ua.mibal.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 import ua.mibal.serializer.annotation.Field;
 import ua.mibal.serializer.annotation.XmlModel;
+
+import java.io.Serializable;
 
 /**
  * @author Mykhailo Balakhon
@@ -18,7 +20,11 @@ import ua.mibal.serializer.annotation.XmlModel;
 @Getter
 @Setter
 @XmlModel
-public class NonSerializable {
+public class Book implements Serializable {
+    @Field("title")
+    private String title;
+    @Field("author")
+    private String author;
     @Field
-    private String name;
+    private int year;
 }

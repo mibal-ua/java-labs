@@ -1,4 +1,4 @@
-package ua.mibal.demo;
+package ua.mibal.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,17 +19,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
-@XmlModel("operation")
-public class Transaction implements Serializable {
-    @Field("ID")
-    private String id;
-    private String secret;
+@XmlModel
+public class Car implements Serializable {
     @Field
-    private String sender;
+    private String brand;
     @Field
-    private String recipient;
+    private String model;
     @Field
-    private double amount;
-    @Field
-    private String currency;
+    private int year;
 }

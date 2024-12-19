@@ -1,4 +1,4 @@
-package ua.mibal.demo;
+package ua.mibal.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,8 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 import ua.mibal.serializer.annotation.Field;
 import ua.mibal.serializer.annotation.XmlModel;
-
-import java.io.Serializable;
 
 /**
  * @author Mykhailo Balakhon
@@ -20,11 +18,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @XmlModel
-public class Car implements Serializable {
+public class NonSerializable {
     @Field
-    private String brand;
-    @Field
-    private String model;
-    @Field
-    private int year;
+    private String name;
 }

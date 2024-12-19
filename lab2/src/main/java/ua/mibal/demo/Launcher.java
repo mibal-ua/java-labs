@@ -1,10 +1,10 @@
-package ua.mibal;
+package ua.mibal.demo;
 
 import lombok.extern.slf4j.Slf4j;
-import ua.mibal.demo.Book;
-import ua.mibal.demo.Car;
-import ua.mibal.demo.NonSerializable;
-import ua.mibal.demo.Transaction;
+import ua.mibal.demo.model.Book;
+import ua.mibal.demo.model.Car;
+import ua.mibal.demo.model.NonSerializable;
+import ua.mibal.demo.model.Transaction;
 import ua.mibal.serializer.XmlSerializer;
 import ua.mibal.serializer.exception.XmlSerializationException;
 import ua.mibal.serializer.model.XmlModel;
