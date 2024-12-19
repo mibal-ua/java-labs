@@ -1,10 +1,8 @@
 package ua.mibal.serializer.model;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,22 +10,20 @@ import java.util.Map;
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 @ToString
-@Builder
 @Getter
-public class XmlModel {
+public class XmlModel extends SerializationModel {
     private final String name;
-    private final Map<String, Object> properties;
-    
+
     public XmlModel() {
         this(null, Map.of());
     }
 
-    public XmlModel(String name, Map<String, Object> properties) {
-        this.name = name;
-        this.properties = new HashMap<>(properties);
+    public XmlModel(String name, SerializationModel model) {
+        this(name, model.properties);
     }
 
-    public Object getProperty(String key) {
-        return properties.get(key);
+    public XmlModel(String name, Map<String, Object> properties) {
+        super(properties);
+        this.name = name;
     }
 }
