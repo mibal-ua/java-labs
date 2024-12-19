@@ -1,17 +1,14 @@
 package ua.mibal.serializer;
 
-import ua.mibal.serializer.exception.XmlSerializationException;
+import ua.mibal.serializer.component.XmlModelValidator;
 import ua.mibal.serializer.model.XmlModel;
-
-import java.io.Serializable;
-
-import static java.util.Arrays.stream;
 
 /**
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 public class XmlSerializer {
+    private final XmlModelValidator validator = new XmlModelValidator();
 
     public String serialize(Object model) {
         return mapToString(serializeModel(model));
@@ -21,7 +18,7 @@ public class XmlSerializer {
         if (model == null) {
             return null;
         }
-        checkSupported(model);
+        validator.validate(model);
         return map(model);
     }
 
@@ -33,17 +30,5 @@ public class XmlSerializer {
     private String mapToString(XmlModel xmlModel) {
         //todo
         return null;
-    }
-
-    private void checkSupported(Object model) {
-        Class<?>[] interfaces = model.getClass().getInterfaces();
-        if (stream(interfaces).noneMatch(
-                c -> c.equals(Serializable.class))
-        ) {
-            throw new XmlSerializationException(
-                    "Model can not be serialized. " +
-                    "Model class should implement Serializable interface"
-            );
-        }
     }
 }
