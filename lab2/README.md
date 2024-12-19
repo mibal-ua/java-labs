@@ -65,6 +65,20 @@ This project is an implementation of **Variant 1** from Laboratory Work №2. Th
 
 ---
 
+#### **Benchmark Results**
+To compare the performance of reflection-based and plain serialization, a benchmark was conducted using **JMH**. The results are as follows:
+
+| Benchmark                                  | Mode | Count | Average Time (ms/op) |
+|--------------------------------------------|------|-------|-----------------------|
+| Reflection-based Serialization (`XmlSerializer`) | avgt | 5     | 0.001 ± 0.001        |
+| Plain Serialization (`PlainBookXmlSerializer`)     | avgt | 5     | ≈ 10⁻⁴               |
+
+**Observations:**
+- Reflection-based serialization is slightly slower due to the overhead of dynamic field access and annotation processing.
+- Plain serialization is faster but lacks the flexibility and dynamic capabilities of reflection-based approaches.
+
+---
+
 #### **References**
 - [XML](https://uk.wikipedia.org/wiki/XML)
 - [JSON](https://uk.wikipedia.org/wiki/JSON)
@@ -76,4 +90,3 @@ This project is an implementation of **Variant 1** from Laboratory Work №2. Th
 #### **Notes**
 - The project adheres to **Google Java Code Style**.
 - All custom classes are documented with **Javadoc**.
-
