@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.mibal.serializer.annotation.Field;
 import ua.mibal.serializer.annotation.XmlModel;
 
 import java.io.Serializable;
@@ -20,7 +21,10 @@ import java.io.Serializable;
 @Setter
 @XmlModel
 public class Car implements Serializable {
+    @Field
     private String brand;
+    @Field
     private String model;
+    @Field
     private int year;
 }

@@ -33,7 +33,7 @@ public class XmlSerializer {
         ua.mibal.serializer.annotation.XmlModel xmlModelName =
                 clazz.getAnnotation(ua.mibal.serializer.annotation.XmlModel.class);
         String modelName = xmlModelName.value().isEmpty()
-                ? clazz.getSimpleName()
+                ? lowerCaseFirstLetter(clazz.getSimpleName())
                 : xmlModelName.value();
         Map<String, Object> properties = new HashMap<>();
 
@@ -54,6 +54,10 @@ public class XmlSerializer {
         }
 
         return new XmlModel(modelName, properties);
+    }
+
+    private String lowerCaseFirstLetter(String simpleName) {
+        return simpleName.substring(0, 1).toLowerCase() + simpleName.substring(1);
     }
 
     private String mapToString(XmlModel xmlModel) {

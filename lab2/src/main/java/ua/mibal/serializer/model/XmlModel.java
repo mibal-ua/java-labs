@@ -2,6 +2,7 @@ package ua.mibal.serializer.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +11,9 @@ import java.util.Map;
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
-@Getter
+@ToString
 @Builder
+@Getter
 public class XmlModel {
     private final String name;
     private final Map<String, Object> properties;
