@@ -6,8 +6,8 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
 import ua.mibal.demo.model.Book;
-import ua.mibal.serializer.JsonSerializer;
-import ua.mibal.serializer.PlainBookJsonSerializer;
+import ua.mibal.serializer.PlainBookSerializer;
+import ua.mibal.serializer.Serializer;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.openjdk.jmh.annotations.Mode.AverageTime;
@@ -18,8 +18,8 @@ import static org.openjdk.jmh.annotations.Mode.AverageTime;
  */
 @State(Scope.Thread)
 public class JsonSerializersBenchmark {
-    private static final JsonSerializer jsonSerializer = new JsonSerializer();
-    private static final PlainBookJsonSerializer plainBookJsonSerializer = new PlainBookJsonSerializer();
+    private static final Serializer serializer = new Serializer();
+    private static final PlainBookSerializer plainBookSerializer = new PlainBookSerializer();
 
     private static final Book book = Book.builder()
             .author("Mykhailo Balakhon")
@@ -31,13 +31,13 @@ public class JsonSerializersBenchmark {
     @BenchmarkMode(AverageTime)
     @OutputTimeUnit(MILLISECONDS)
     public void benchmark_reflection() {
-        jsonSerializer.serialize(book);
+        serializer.json(book);
     }
 
     @Benchmark
     @BenchmarkMode(AverageTime)
     @OutputTimeUnit(MILLISECONDS)
     public void benchmark_plain() {
-        plainBookJsonSerializer.serialize(book);
+        plainBookSerializer.json(book);
     }
 }

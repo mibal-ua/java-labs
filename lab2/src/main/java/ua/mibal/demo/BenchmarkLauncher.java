@@ -6,7 +6,7 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import ua.mibal.demo.benchmark.JsonSerializersBenchmark;
-import ua.mibal.demo.benchmark.XmlSerializersBenchmark;
+import ua.mibal.demo.benchmark.SerializersXmlBenchmark;
 
 /**
  * @author Mykhailo Balakhon
@@ -16,7 +16,7 @@ import ua.mibal.demo.benchmark.XmlSerializersBenchmark;
 public class BenchmarkLauncher {
 
     public static void main(String[] args) {
-        run(XmlSerializersBenchmark.class);
+        run(SerializersXmlBenchmark.class);
         run(JsonSerializersBenchmark.class);
     }
 

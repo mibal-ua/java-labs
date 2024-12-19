@@ -5,9 +5,8 @@ import ua.mibal.demo.model.Book;
 import ua.mibal.demo.model.Car;
 import ua.mibal.demo.model.NonSerializable;
 import ua.mibal.demo.model.Transaction;
-import ua.mibal.serializer.XmlSerializer;
+import ua.mibal.serializer.Serializer;
 import ua.mibal.serializer.exception.SerializationException;
-import ua.mibal.serializer.model.XmlModel;
 
 /**
  * @author Mykhailo Balakhon
@@ -15,7 +14,7 @@ import ua.mibal.serializer.model.XmlModel;
  */
 @Slf4j
 public class Launcher {
-    private static final XmlSerializer serializer = new XmlSerializer();
+    private static final Serializer serializer = new Serializer();
 
     public static void main(String[] args) {
         Book cleanCode = Book.builder()
@@ -55,14 +54,14 @@ public class Launcher {
     private static void serialize(Object object) {
         String className = object.getClass().getSimpleName();
         log.info("{} serialization demo", className);
-
         log.info("{}: {}", className, object);
 
-        XmlModel xml = serializer.serializeModel(object);
+        String xml = serializer.xml(object);
         log.info("{}: {}", className, xml);
-
-        String xmlString = serializer.serialize(object);
-        log.info("{}: {}", className, xmlString);
+        
+        String json = serializer.json(object);
+        log.info("{}: {}", className, json);
+        
         log.info("");
     }
 }
