@@ -17,7 +17,7 @@ import static org.openjdk.jmh.annotations.Mode.AverageTime;
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 @State(Scope.Thread)
-public class SerializersBenchmark {
+public class XmlSerializersBenchmark {
     private static final XmlSerializer xmlSerializer = new XmlSerializer();
     private static final PlainBookXmlSerializer plainBookXmlSerializer = new PlainBookXmlSerializer();
 
