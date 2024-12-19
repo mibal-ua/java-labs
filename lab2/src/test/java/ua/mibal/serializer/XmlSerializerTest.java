@@ -2,6 +2,7 @@ package ua.mibal.serializer;
 
 import lombok.Builder;
 import org.junit.jupiter.api.Test;
+import org.xmlunit.assertj3.XmlAssert;
 import ua.mibal.serializer.annotation.Field;
 import ua.mibal.serializer.exception.XmlSerializationException;
 import ua.mibal.serializer.model.XmlModel;
@@ -53,6 +54,25 @@ public class XmlSerializerTest {
         assertThat(actual.getProperty("name")).isEqualTo("John");
         assertThat(actual.getProperty("age")).isEqualTo(25);
         assertThat(actual.getProperty("male")).isEqualTo(true);
+        assertThat(actual.getProperty("hidden")).isNull();
+    }
+
+    @Test
+    void serialize() {
+        TestClass testClass = TestClass.builder()
+                .name("John")
+                .age(25)
+                .isMale(true)
+                .build();
+
+        String actual = serializer.serialize(testClass);
+
+        assertThat(actual).isNotNull();
+        XmlAssert.assertThat(actual).nodesByXPath("test").exist();
+        XmlAssert.assertThat(actual).valueByXPath("test/hidden").isBlank();
+        XmlAssert.assertThat(actual).valueByXPath("test/name").isEqualTo("John");
+        XmlAssert.assertThat(actual).valueByXPath("test/age").isEqualTo(25);
+        XmlAssert.assertThat(actual).valueByXPath("test/male").isEqualTo(true);
     }
 
     @Builder
@@ -64,6 +84,7 @@ public class XmlSerializerTest {
         private int age;
         @Field("male")
         private boolean isMale;
+        private boolean hidden;
     }
 
     @ua.mibal.serializer.annotation.XmlModel("lol123")

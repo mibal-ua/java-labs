@@ -30,7 +30,7 @@ public class XmlSerializer {
     private XmlModel map(Object model) {
         Class<?> clazz = model.getClass();
 
-        ua.mibal.serializer.annotation.XmlModel xmlModelName = 
+        ua.mibal.serializer.annotation.XmlModel xmlModelName =
                 clazz.getAnnotation(ua.mibal.serializer.annotation.XmlModel.class);
         String modelName = xmlModelName.value().isEmpty()
                 ? clazz.getSimpleName()
@@ -57,7 +57,20 @@ public class XmlSerializer {
     }
 
     private String mapToString(XmlModel xmlModel) {
-        //todo
-        return null;
+        if (xmlModel == null) {
+            return "";
+        }
+
+        StringBuilder xmlBuilder = new StringBuilder();
+        xmlBuilder.append("<").append(xmlModel.getName()).append(">");
+
+        for (Map.Entry<String, Object> entry : xmlModel.getProperties().entrySet()) {
+            xmlBuilder.append("<").append(entry.getKey()).append(">")
+                    .append(entry.getValue())
+                    .append("</").append(entry.getKey()).append(">");
+        }
+
+        xmlBuilder.append("</").append(xmlModel.getName()).append(">");
+        return xmlBuilder.toString();
     }
 }
