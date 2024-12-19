@@ -1,28 +1,30 @@
 package ua.mibal.serializer;
 
 import lombok.Builder;
+import org.json.JSONException;
 import org.junit.jupiter.api.Test;
-import org.xmlunit.assertj3.XmlAssert;
+import org.skyscreamer.jsonassert.JSONAssert;
 import ua.mibal.serializer.annotation.Field;
 import ua.mibal.serializer.exception.SerializationException;
-import ua.mibal.serializer.model.XmlModel;
+import ua.mibal.serializer.model.JsonModel;
 
 import java.io.Serializable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.skyscreamer.jsonassert.JSONCompareMode.STRICT;
 
 
 /**
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
-public class XmlSerializerTest {
-    private final XmlSerializer serializer = new XmlSerializer();
+public class JsonSerializerTest {
+    private final JsonSerializer serializer = new JsonSerializer();
 
     @Test
     void serializeModel_null() {
-        XmlModel actual = serializer.serializeModel(null);
+        JsonModel actual = serializer.serializeModel(null);
 
         assertThat(actual).isNull();
     }
@@ -34,12 +36,6 @@ public class XmlSerializerTest {
     }
 
     @Test
-    void serializeModel_notAnXmlModel() {
-        assertThrows(SerializationException.class,
-                () -> serializer.serializeModel(new TestNotXmlModel()));
-    }
-
-    @Test
     void serializeModel() {
         TestClass testClass = TestClass.builder()
                 .name("John")
@@ -47,10 +43,9 @@ public class XmlSerializerTest {
                 .isMale(true)
                 .build();
 
-        XmlModel actual = serializer.serializeModel(testClass);
+        JsonModel actual = serializer.serializeModel(testClass);
 
         assertThat(actual).isNotNull();
-        assertThat(actual.getName()).isEqualTo("test");
         assertThat(actual.getProperty("name")).isEqualTo("John");
         assertThat(actual.getProperty("age")).isEqualTo(25);
         assertThat(actual.getProperty("male")).isEqualTo(true);
@@ -58,7 +53,7 @@ public class XmlSerializerTest {
     }
 
     @Test
-    void serialize() {
+    void serialize() throws JSONException {
         TestClass testClass = TestClass.builder()
                 .name("John")
                 .age(25)
@@ -68,15 +63,19 @@ public class XmlSerializerTest {
         String actual = serializer.serialize(testClass);
 
         assertThat(actual).isNotNull();
-        XmlAssert.assertThat(actual).nodesByXPath("test").exist();
-        XmlAssert.assertThat(actual).valueByXPath("test/hidden").isBlank();
-        XmlAssert.assertThat(actual).valueByXPath("test/name").isEqualTo("John");
-        XmlAssert.assertThat(actual).valueByXPath("test/age").isEqualTo(25);
-        XmlAssert.assertThat(actual).valueByXPath("test/male").isEqualTo(true);
+
+        JSONAssert.assertEquals(
+                """
+                        {
+                          "name": "John",
+                          "age": 25,
+                          "male": true
+                        }""",
+                actual, STRICT
+        );
     }
 
     @Builder
-    @ua.mibal.serializer.annotation.XmlModel("test")
     private static class TestClass implements Serializable {
         @Field
         private String name;
@@ -87,13 +86,7 @@ public class XmlSerializerTest {
         private boolean hidden;
     }
 
-    @ua.mibal.serializer.annotation.XmlModel("lol123")
     private static class TestNotSerializable {
-        @Field
-        private String name;
-    }
-
-    private static class TestNotXmlModel implements Serializable {
         @Field
         private String name;
     }

@@ -1,6 +1,6 @@
 package ua.mibal.serializer.component;
 
-import ua.mibal.serializer.exception.XmlSerializationException;
+import ua.mibal.serializer.exception.SerializationException;
 
 import java.io.Serializable;
 
@@ -21,7 +21,7 @@ public class ModelValidator {
         if (stream(interfaces).noneMatch(
                 c -> c.equals(Serializable.class))
         ) {
-            throw new XmlSerializationException(
+            throw new SerializationException(
                     "Model can not be serialized. " +
                     "Model class should implement Serializable interface"
             );

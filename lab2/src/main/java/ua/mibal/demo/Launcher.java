@@ -6,7 +6,7 @@ import ua.mibal.demo.model.Car;
 import ua.mibal.demo.model.NonSerializable;
 import ua.mibal.demo.model.Transaction;
 import ua.mibal.serializer.XmlSerializer;
-import ua.mibal.serializer.exception.XmlSerializationException;
+import ua.mibal.serializer.exception.SerializationException;
 import ua.mibal.serializer.model.XmlModel;
 
 /**
@@ -47,7 +47,7 @@ public class Launcher {
                     .name("NonSerializable")
                     .build();
             serialize(nonSerializable);
-        } catch (XmlSerializationException e) {
+        } catch (SerializationException e) {
             log.error("Keep calm, expected error during serialization", e);
         }
     }

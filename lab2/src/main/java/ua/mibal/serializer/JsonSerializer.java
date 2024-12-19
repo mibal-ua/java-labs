@@ -1,6 +1,6 @@
 package ua.mibal.serializer;
 
-import ua.mibal.serializer.component.XmlModelValidator;
+import ua.mibal.serializer.component.ModelValidator;
 import ua.mibal.serializer.model.JsonModel;
 
 /**
@@ -8,8 +8,7 @@ import ua.mibal.serializer.model.JsonModel;
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 public class JsonSerializer extends Serializer<JsonModel> {
-    private final XmlModelValidator validator = new XmlModelValidator();
-
+    private final ModelValidator validator = new ModelValidator();
     
     @Override
     public String serialize(Object model) {

@@ -1,6 +1,6 @@
 package ua.mibal.serializer;
 
-import ua.mibal.serializer.exception.XmlSerializationException;
+import ua.mibal.serializer.exception.SerializationException;
 import ua.mibal.serializer.model.SerializationModel;
 
 import java.lang.reflect.Field;
@@ -32,7 +32,7 @@ public abstract class Serializer<T extends SerializationModel> {
                     Object value = field.get(model);
                     properties.put(key, value);
                 } catch (IllegalAccessException e) {
-                    throw new XmlSerializationException("Failed to access field: " + field.getName(), e);
+                    throw new SerializationException("Failed to access field: " + field.getName(), e);
                 }
             }
         }
