@@ -49,10 +49,10 @@ public class XmlSerializerTest {
         XmlModel actual = serializer.serializeModel(testClass);
 
         assertThat(actual).isNotNull();
-        assertThat(actual.getName()).equals("test");
-        assertThat(actual.getProperty("name")).equals("John");
-        assertThat(actual.getProperty("age")).equals(25);
-        assertThat(actual.getProperty("male")).equals(true);
+        assertThat(actual.getName()).isEqualTo("test");
+        assertThat(actual.getProperty("name")).isEqualTo("John");
+        assertThat(actual.getProperty("age")).isEqualTo(25);
+        assertThat(actual.getProperty("male")).isEqualTo(true);
     }
 
     @Builder
