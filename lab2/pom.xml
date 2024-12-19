@@ -26,6 +26,11 @@
             <artifactId>logback-classic</artifactId>
             <version>1.5.12</version>
         </dependency>
+        <dependency>
+            <groupId>ua.mibal</groupId>
+            <artifactId>processor</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -93,6 +98,11 @@
                             <groupId>org.openjdk.jmh</groupId>
                             <artifactId>jmh-generator-annprocess</artifactId>
                             <version>1.35</version>
+                        </path>
+                        <path>
+                            <groupId>ua.mibal</groupId>
+                            <artifactId>processor</artifactId>
+                            <version>1.0-SNAPSHOT</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
