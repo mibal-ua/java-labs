@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.mibal.serializer.annotation.Field;
+
+import java.io.Serializable;
 
 /**
  * @author Mykhailo Balakhon
@@ -15,10 +18,16 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Transaction {
+public class Transaction implements Serializable {
+    @Field("ID")
     private String id;
+    private String secret;
+    @Field
     private String sender;
+    @Field
     private String recipient;
+    @Field
     private double amount;
+    @Field
     private String currency;
 }

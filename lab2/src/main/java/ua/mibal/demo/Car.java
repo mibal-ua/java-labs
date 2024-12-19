@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
@@ -15,7 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Car {
+public class Car implements Serializable {
     private String brand;
     private String model;
     private int year;

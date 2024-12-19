@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.mibal.serializer.annotation.Field;
+
+import java.io.Serializable;
 
 /**
  * @author Mykhailo Balakhon
@@ -15,8 +18,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Book {
+public class Book implements Serializable {
+    @Field("title")
     private String title;
+    @Field("author")
     private String author;
+    @Field
     private int year;
 }
