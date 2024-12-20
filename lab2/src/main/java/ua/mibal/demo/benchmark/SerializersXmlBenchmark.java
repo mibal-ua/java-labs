@@ -5,8 +5,8 @@ import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;
+import ua.mibal.codegen.api.Serializers;
 import ua.mibal.demo.model.Book;
-import ua.mibal.serializer.reflection.PlainBookSerializer;
 import ua.mibal.serializer.reflection.Serializer;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -18,8 +18,8 @@ import static org.openjdk.jmh.annotations.Mode.AverageTime;
  */
 @State(Scope.Thread)
 public class SerializersXmlBenchmark {
-    private static final Serializer serializer = new Serializer();
-    private static final PlainBookSerializer plainBookSerializer = new PlainBookSerializer();
+    private static final Serializer reflection = new Serializer();
+    private static final ua.mibal.serializer.codegen.Serializer generated = Serializers.getInstance(ua.mibal.serializer.codegen.Serializer.class);
 
     private static final Book book = Book.builder()
             .author("Mykhailo Balakhon")
@@ -31,13 +31,13 @@ public class SerializersXmlBenchmark {
     @BenchmarkMode(AverageTime)
     @OutputTimeUnit(MILLISECONDS)
     public void benchmark_reflection() {
-        serializer.xml(book);
+        reflection.xml(book);
     }
 
     @Benchmark
     @BenchmarkMode(AverageTime)
     @OutputTimeUnit(MILLISECONDS)
-    public void benchmark_plain() {
-        plainBookSerializer.xml(book);
+    public void benchmark_generated() {
+        generated.xml(book);
     }
 }

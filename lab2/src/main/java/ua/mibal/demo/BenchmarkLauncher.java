@@ -5,7 +5,7 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import ua.mibal.demo.benchmark.JsonSerializersBenchmark;
+import ua.mibal.demo.benchmark.SerializersJsonBenchmark;
 import ua.mibal.demo.benchmark.SerializersXmlBenchmark;
 
 /**
@@ -17,7 +17,7 @@ public class BenchmarkLauncher {
 
     public static void main(String[] args) {
         run(SerializersXmlBenchmark.class);
-        run(JsonSerializersBenchmark.class);
+        run(SerializersJsonBenchmark.class);
     }
 
     private static void run(Class<?> benchmark) {
