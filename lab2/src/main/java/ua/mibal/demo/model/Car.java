@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ua.mibal.codegen.api.GenField;
+import ua.mibal.codegen.api.Serialize;
 import ua.mibal.serializer.reflection.annotation.Field;
 import ua.mibal.serializer.reflection.annotation.XmlModel;
 
@@ -20,11 +22,15 @@ import java.io.Serializable;
 @Getter
 @Setter
 @XmlModel
+@Serialize
 public class Car implements Serializable {
+    @GenField
     @Field
     private String brand;
+    @GenField
     @Field
     private String model;
+    @GenField
     @Field
     private int year;
 }

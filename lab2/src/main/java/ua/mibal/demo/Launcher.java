@@ -47,7 +47,7 @@ public class Launcher {
                     .name("NonSerializable")
                     .build();
             serialize(nonSerializable);
-        } catch (SerializationException e) {
+        } catch (Exception e) {
             log.error("Keep calm, expected error during serialization", e);
         }
     }
