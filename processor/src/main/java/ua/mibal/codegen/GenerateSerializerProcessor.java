@@ -27,7 +27,7 @@ import static javax.lang.model.SourceVersion.RELEASE_17;
         "ua.mibal.codegen.api.Serialize"
 })
 @SupportedSourceVersion(RELEASE_17)
-public class MyProcessor extends AbstractProcessor {
+public class GenerateSerializerProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations,

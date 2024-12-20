@@ -41,7 +41,7 @@
                         <configuration>
                             <compilerArgument>-proc:none</compilerArgument>
                             <includes>
-                                <include>ua/mibal/codegen/MyProcessor.java</include>
+                                <include>ua/mibal/codegen/GenerateSerializerProcessor.java</include>
                             </includes>
                         </configuration>
                     </execution>

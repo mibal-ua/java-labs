@@ -8,7 +8,7 @@ Mykhailo Balakhon | IM-22
 
 #### **Project Description**
 
-This project is an implementation of **Variant 1** from Laboratory Work №3. The goal is to create a serializer for annotated Java objects into **XML** and **JSON** formats. The implementation supports mapping Java object fields to their representations in the serialized output. The project demonstrates the use of **annotations** and **reflection** in Java to achieve dynamic serialization.
+This project implements Variant 1 from Laboratory Work №3. The goal is to create a serializer for annotated Java objects into XML and JSON formats. The implementation supports mapping Java object fields to their representations in the serialized output. It demonstrates the use of annotations and reflection in Java to achieve dynamic serialization.
 
 ---
 
@@ -18,7 +18,7 @@ This project is an implementation of **Variant 1** from Laboratory Work №3. Th
 - **JSON Serialization**: Convert Java objects to JSON format with custom field mappings.
 - **Annotations**: Custom annotations to define serialization rules.
 - **Reflection**: Dynamically process annotations and map object fields to serialized formats.
-- **Performance Comparison**: Demonstrates execution time differences between reflection-based and non-reflection-based approaches.
+- **Performance Comparison**: Demonstrates execution time differences between reflection-based and annotation processing-based approaches.
 
 ---
 
@@ -39,22 +39,29 @@ This project is an implementation of **Variant 1** from Laboratory Work №3. Th
 1. **Clone the Repository**
    ```bash
    git clone <repository-url>
-   cd <repository-directory>/lab3
    ```
 
-2. **Build the Project**  
-   Ensure you have **Maven** installed. Run the following command to build the project:
+2. **Install custom annotation processor**  
+   Ensure you have **Maven** installed. Run the following command to install the processor:
    ```bash
+   cd <repository-directory>/processor
    mvn clean install
    ```
 
-3. **Run the Program**  
+3. **Build the Project**  
+   Ensure you have **Maven** installed. Run the following command to build the project:
+   ```bash
+   cd <repository-directory>/lab3
+   mvn clean install
+   ```
+
+4. **Run the Program**  
    Use the following command to execute the program:
    ```bash
    java -jar target/lab2-xml-json-serializer-<version>.jar
    ```
 
-4. **Testing**  
+5. **Testing**  
    To run tests, execute:
    ```bash
    mvn test
@@ -72,17 +79,17 @@ This project is an implementation of **Variant 1** from Laboratory Work №3. Th
 
 #### **Benchmark Results**
 
-To compare the performance of reflection-based and plain serialization, a benchmark was conducted using **JMH**. The results are as follows:
+To compare the performance of annotation processing and reflection-based serialization, a benchmark was conducted using **JMH**. The results are as follows:
 
-| Benchmark                      | Mode | Count | Average Time (ms/op) |
-|--------------------------------|------|-------|----------------------|
-| Reflection-based Serialization | avgt | 5     | 0.001 ± 0.001        |
-| Processing-based Serialization | avgt | 5     | ≈ 10⁻⁴               |
+| Benchmark                                 | Mode | Count | Average Time (ms/op) |
+|-------------------------------------------|------|-------|----------------------|
+| Reflection-based Serialization            | avgt | 5     | 0.001 ± 0.001        |
+| Annotation Processing-based Serialization | avgt | 5     | ≈ 10⁻⁴               |
 
 **Observations:**
 
-- Reflection-based serialization is slightly slower due to the overhead of dynamic field access and annotation processing.
-- Plain serialization is faster but lacks the flexibility and dynamic capabilities of reflection-based approaches.
+- Reflection-based serialization introduces a slight overhead due to dynamic field access, making it marginally slower.
+- Annotation processing-based serialization is faster because it generates optimized code at compile time, reducing runtime overhead. However, it is less dynamic and requires recompilation for changes.
 
 ---
 
