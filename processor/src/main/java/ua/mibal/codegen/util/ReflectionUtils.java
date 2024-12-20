@@ -14,16 +14,15 @@ import java.util.Set;
  */
 public class ReflectionUtils {
 
-    public static Map<String, List<? extends Element>> getFieldMappings(Set<? extends Element> models) {
-        Map<String, List<? extends Element>> properties = new HashMap<>();
+    public static Map<Element, List<? extends Element>> getFieldMappings(Set<? extends Element> models) {
+        Map<Element, List<? extends Element>> properties = new HashMap<>();
         
         for (Element model : models) {
-            String className = extractClassName(model);
             List<? extends Element> fields = model.getEnclosedElements().stream()
                     .filter(e -> e.getKind().isField())
                     .filter(e -> e.getAnnotation(GenField.class) != null)
                     .toList();
-            properties.put(className, fields);
+            properties.put(model, fields);
         }
 
         return properties;
@@ -41,7 +40,7 @@ public class ReflectionUtils {
                 : annotation.value();
     }
 
-    private static String extractClassName(Element model) {
+    public static String extractClassName(Element model) {
         String className = model.getSimpleName().toString();
         String packageName = model.getEnclosingElement().toString();
         return packageName.isEmpty()

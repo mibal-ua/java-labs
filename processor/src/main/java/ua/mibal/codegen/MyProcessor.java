@@ -45,7 +45,7 @@ public class MyProcessor extends AbstractProcessor {
         String serializerImplName = serializerIClassName + "Impl";
         String packageName = serializer.getEnclosingElement().toString();
 
-        Map<String, List<? extends Element>> fieldsOfModels = ReflectionUtils.getFieldMappings(models);
+        Map<Element, List<? extends Element>> fieldsOfModels = ReflectionUtils.getFieldMappings(models);
 
         try (PrintWriter writer = new PrintWriter(
                 processingEnv.getFiler().createSourceFile(packageName + "." + serializerImplName).openWriter())) {
@@ -69,6 +69,7 @@ public class MyProcessor extends AbstractProcessor {
 
             fieldsOfModels.forEach((className, fields) -> {
                 writer.println(generateJsonMethod(className, fields));
+                writer.println(generateXmlMethod(className, fields));
             });
 
             writer.println("}\n");
@@ -77,9 +78,10 @@ public class MyProcessor extends AbstractProcessor {
         }
     }
 
-    private void generateJsonRouter(PrintWriter writer, Map<String, List<? extends Element>> fieldsOfModels) {
+    private void generateJsonRouter(PrintWriter writer, Map<Element, List<? extends Element>> fieldsOfModels) {
         writer.println("\tpublic String json(Object object) {");
-        fieldsOfModels.forEach((className, fields) -> {
+        fieldsOfModels.forEach((element, fields) -> {
+            String className = ReflectionUtils.extractClassName(element);
             writer.println(("\t\tif (object instanceof %s) {\n" +
                             "\t\t\treturn mapJson((%s) object);\n" +
                             "\t\t}").formatted(className, className)
@@ -89,33 +91,23 @@ public class MyProcessor extends AbstractProcessor {
                        "\t}\n");
     }
 
-    private void generateXmlRouter(PrintWriter writer, Map<String, List<? extends Element>> fieldsOfModels) {
-        writer.println("""
-            public String xml(Object object) {""");
-        //todo
-//        fieldsOfModels.forEach((className, fields) -> {
-//            writer.println("""
-//                \tif (object instanceof %s) {
-//                    \treturn mapJson((%s) object);
-//                    }
-//                """.formatted(className, className)
-//            );
-//        });
-        writer.println("""
-            \tthrow new IllegalArgumentException("Mapping for this class " + object.getClass().getName() + " is not declared!");
-            }
-        """);
+    private void generateXmlRouter(PrintWriter writer, Map<Element, List<? extends Element>> fieldsOfModels) {
+        writer.println("\tpublic String xml(Object object) {");
+        fieldsOfModels.forEach((element, fields) -> {
+            String className = ReflectionUtils.extractClassName(element);
+            writer.println(("\t\tif (object instanceof %s) {\n" +
+                            "\t\t\treturn mapXml((%s) object);\n" +
+                            "\t\t}").formatted(className, className)
+            );
+        });
+        writer.println("\t\tthrow new IllegalArgumentException(\"Mapping for this class \" + object.getClass().getName() + \" is not declared!\");\n" +
+                       "\t}\n");
     }
 
-    private String generateJsonMethod(String className, List<? extends Element> fields) {
-
-//        Serialize xmlModelName = clazz.getAnnotation(Serialize.class);
-//        String modelName = xmlModelName.value().isEmpty()
-//                ? lowerCaseFirstLetter(clazz.getSimpleName())
-//                : xmlModelName.value();
-
+    private String generateJsonMethod(Element clazz, List<? extends Element> fields) {
         StringBuilder methodBuilder = new StringBuilder();
 
+        String className = ReflectionUtils.extractClassName(clazz);
         methodBuilder.append("\tprivate String mapJson(%s o) {\n".formatted(className));
         methodBuilder.append("\t\treturn \"{\" +\n");
 
@@ -138,5 +130,35 @@ public class MyProcessor extends AbstractProcessor {
         methodBuilder.append("\t\t\"}\";\n");
         methodBuilder.append("\t}\n");
         return methodBuilder.toString();
+    }
+
+    private String generateXmlMethod(Element clazz, List<? extends Element> fields) {
+
+        StringBuilder methodBuilder = new StringBuilder();
+        String className = ReflectionUtils.extractClassName(clazz);
+
+        Serialize xmlModelName = clazz.getAnnotation(Serialize.class);
+        String modelName = xmlModelName.value().isEmpty()
+                ? lowerCaseFirstLetter(clazz.getSimpleName().toString())
+                : xmlModelName.value();
+
+        methodBuilder.append("\tprivate String mapXml(%s o) {\n".formatted(className));
+        methodBuilder.append("\t\treturn \"<%s>\" +\n".formatted(modelName));
+
+        for (Element field : fields) {
+            String getter = ReflectionUtils.getGetterName(field);
+            String propertyName = ReflectionUtils.getPropertyName(field);
+
+            methodBuilder.append("""
+                    \t\t\t"<%s>" + o.%s() + "</%s>" +
+                    """.formatted(propertyName, getter, propertyName));
+        }
+        methodBuilder.append("\t\t\t \"</%s>\";\n".formatted(modelName));
+        methodBuilder.append("\t}\n");
+        return methodBuilder.toString();
+    }
+
+    private String lowerCaseFirstLetter(String simpleName) {
+        return simpleName.substring(0, 1).toLowerCase() + simpleName.substring(1);
     }
 }
