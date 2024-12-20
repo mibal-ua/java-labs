@@ -61,16 +61,11 @@ public class MyProcessor extends AbstractProcessor {
                      * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
                      */
                     public class %s implements %s {
-                    
                     """.formatted(packageName, packageName + "." + serializerIClassName, serializerImplName, serializerIClassName)
             );
             
             generateJsonRouter(writer, fieldsOfModels);
             generateXmlRouter(writer, fieldsOfModels);
-            
-//            fieldsOfModels.forEach((className, fields) -> {
-//                writer.println(generateRouteFor(className));
-//            });
 
             fieldsOfModels.forEach((className, fields) -> {
                 writer.println(generateJsonMethod(className, fields));
@@ -83,27 +78,20 @@ public class MyProcessor extends AbstractProcessor {
     }
 
     private void generateJsonRouter(PrintWriter writer, Map<String, List<? extends Element>> fieldsOfModels) {
-        writer.println("""
-            public String json(Object object) {
-        """);
+        writer.println("\tpublic String json(Object object) {");
         fieldsOfModels.forEach((className, fields) -> {
-            writer.println("""
-                \tif (object instanceof %s) {
-                    \treturn mapJson((%s) object);
-                    }
-                """.formatted(className, className)
+            writer.println(("\t\tif (object instanceof %s) {\n" +
+                            "\t\t\treturn mapJson((%s) object);\n" +
+                            "\t\t}").formatted(className, className)
             );
         });
-        writer.println("""
-            \tthrow new IllegalArgumentException("Mapping for this class " + object.getClass().getName() + " is not declared!");
-            }
-        """);
+        writer.println("\t\tthrow new IllegalArgumentException(\"Mapping for this class \" + object.getClass().getName() + \" is not declared!\");\n" +
+                       "\t}\n");
     }
 
     private void generateXmlRouter(PrintWriter writer, Map<String, List<? extends Element>> fieldsOfModels) {
         writer.println("""
-            public String xml(Object object) {
-        """);
+            public String xml(Object object) {""");
         //todo
 //        fieldsOfModels.forEach((className, fields) -> {
 //            writer.println("""
