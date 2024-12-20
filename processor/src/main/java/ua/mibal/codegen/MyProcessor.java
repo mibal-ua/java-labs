@@ -61,8 +61,16 @@ public class MyProcessor extends AbstractProcessor {
                      * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
                      */
                     public class %s implements %s {
+                    
                     """.formatted(packageName, packageName + "." + serializerIClassName, serializerImplName, serializerIClassName)
             );
+            
+            generateJsonRouter(writer, fieldsOfModels);
+            generateXmlRouter(writer, fieldsOfModels);
+            
+//            fieldsOfModels.forEach((className, fields) -> {
+//                writer.println(generateRouteFor(className));
+//            });
 
             fieldsOfModels.forEach((className, fields) -> {
                 writer.println(generateJsonMethod(className, fields));
@@ -74,6 +82,43 @@ public class MyProcessor extends AbstractProcessor {
         }
     }
 
+    private void generateJsonRouter(PrintWriter writer, Map<String, List<? extends Element>> fieldsOfModels) {
+        writer.println("""
+            public String json(Object object) {
+        """);
+        fieldsOfModels.forEach((className, fields) -> {
+            writer.println("""
+                \tif (object instanceof %s) {
+                    \treturn mapJson((%s) object);
+                    }
+                """.formatted(className, className)
+            );
+        });
+        writer.println("""
+            \tthrow new IllegalArgumentException("Mapping for this class " + object.getClass().getName() + " is not declared!");
+            }
+        """);
+    }
+
+    private void generateXmlRouter(PrintWriter writer, Map<String, List<? extends Element>> fieldsOfModels) {
+        writer.println("""
+            public String xml(Object object) {
+        """);
+        //todo
+//        fieldsOfModels.forEach((className, fields) -> {
+//            writer.println("""
+//                \tif (object instanceof %s) {
+//                    \treturn mapJson((%s) object);
+//                    }
+//                """.formatted(className, className)
+//            );
+//        });
+        writer.println("""
+            \tthrow new IllegalArgumentException("Mapping for this class " + object.getClass().getName() + " is not declared!");
+            }
+        """);
+    }
+
     private String generateJsonMethod(String className, List<? extends Element> fields) {
 
 //        Serialize xmlModelName = clazz.getAnnotation(Serialize.class);
@@ -83,17 +128,25 @@ public class MyProcessor extends AbstractProcessor {
 
         StringBuilder methodBuilder = new StringBuilder();
 
-        methodBuilder.append("\tpublic String json(%s o) {\n".formatted(className));
+        methodBuilder.append("\tprivate String mapJson(%s o) {\n".formatted(className));
         methodBuilder.append("\t\treturn \"{\" +\n");
 
         for (Element field : fields) {
             String getter = ReflectionUtils.getGetterName(field);
             String propertyName = ReflectionUtils.getPropertyName(field);
+            String fieldType = field.asType().toString();
 
-            methodBuilder.append("""
+            if (String.class.getName().equals(fieldType)) {
+                methodBuilder.append("""
                     \t\t\t"\\"%s\\": \\"" + o.%s() + "\\"," +
                     """.formatted(propertyName, getter));
+            } else {
+                methodBuilder.append("""
+                    \t\t\t"\\"%s\\": " + o.%s() + "," +
+                    """.formatted(propertyName, getter));
+            }
         }
+//        methodBuilder.deleteCharAt(methodBuilder.length() - 1);
         methodBuilder.append("\t\t\"}\";\n");
         methodBuilder.append("\t}\n");
         return methodBuilder.toString();

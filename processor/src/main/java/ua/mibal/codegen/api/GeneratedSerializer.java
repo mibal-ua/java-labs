@@ -5,12 +5,8 @@ package ua.mibal.codegen.api;
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 public interface GeneratedSerializer {
-    
-    default String json(Object object) {
-        throw new IllegalArgumentException("Mapping for this class %s is not declared!".formatted(object.getClass().getName()));
-    }
 
-    default String xml(Object object) {
-        throw new IllegalArgumentException("Mapping for this class %s is not declared!".formatted(object.getClass().getName()));
-    }
+    String json(Object object);
+
+    String xml(Object object);
 }
