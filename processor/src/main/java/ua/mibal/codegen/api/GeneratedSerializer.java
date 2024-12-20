@@ -7,10 +7,10 @@ package ua.mibal.codegen.api;
 public interface GeneratedSerializer {
     
     default String json(Object object) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new IllegalArgumentException("Mapping for this class %s is not declared!".formatted(object.getClass().getName()));
     }
 
     default String xml(Object object) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throw new IllegalArgumentException("Mapping for this class %s is not declared!".formatted(object.getClass().getName()));
     }
 }

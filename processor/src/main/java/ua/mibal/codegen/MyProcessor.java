@@ -1,5 +1,9 @@
 package ua.mibal.codegen;
 
+import ua.mibal.codegen.api.GenerateSerializer;
+import ua.mibal.codegen.api.Serialize;
+import ua.mibal.codegen.util.ReflectionUtils;
+
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -8,6 +12,8 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static javax.lang.model.SourceVersion.RELEASE_17;
@@ -16,26 +22,33 @@ import static javax.lang.model.SourceVersion.RELEASE_17;
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
-@SupportedAnnotationTypes("ua.mibal.codegen.api.GenerateSerializer")
+@SupportedAnnotationTypes({
+        "ua.mibal.codegen.api.GenerateSerializer",
+        "ua.mibal.codegen.api.Serialize"
+})
 @SupportedSourceVersion(RELEASE_17)
 public class MyProcessor extends AbstractProcessor {
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        annotations.forEach(annotation ->
-                roundEnv.getElementsAnnotatedWith(annotation)
-                        .forEach(this::generateStubSerializerFor)
+    public boolean process(Set<? extends TypeElement> annotations,
+                           RoundEnvironment roundEnv) {
+        Set<? extends Element> models =
+                roundEnv.getElementsAnnotatedWith(Serialize.class);
+        roundEnv.getElementsAnnotatedWith(GenerateSerializer.class).forEach(serializer ->
+                generateStubSerializerFor(serializer, models)
         );
         return true;
     }
 
-    private void generateStubSerializerFor(Element serializer) {
-        String className = serializer.getSimpleName().toString();
-        String serializerName = className + "Impl";
+    private void generateStubSerializerFor(Element serializer, Set<? extends Element> models) {
+        String serializerIClassName = serializer.getSimpleName().toString();
+        String serializerImplName = serializerIClassName + "Impl";
         String packageName = serializer.getEnclosingElement().toString();
 
+        Map<String, List<? extends Element>> fieldsOfModels = ReflectionUtils.getFieldMappings(models);
+
         try (PrintWriter writer = new PrintWriter(
-                processingEnv.getFiler().createSourceFile(packageName + "." + serializerName).openWriter())) {
+                processingEnv.getFiler().createSourceFile(packageName + "." + serializerImplName).openWriter())) {
             writer.println("""
                     package %s;
                     
@@ -48,19 +61,41 @@ public class MyProcessor extends AbstractProcessor {
                      * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
                      */
                     public class %s implements %s {
-                    
-                        public String json(Object o) {
-                            return "123123";
-                        }
-                    
-                        public String xml(Object o) {
-                            return "123123";
-                        }
-                    }
-                    """.formatted(packageName, packageName + "." + className, serializerName, className)
+                    """.formatted(packageName, packageName + "." + serializerIClassName, serializerImplName, serializerIClassName)
             );
+
+            fieldsOfModels.forEach((className, fields) -> {
+                writer.println(generateJsonMethod(className, fields));
+            });
+
+            writer.println("}\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String generateJsonMethod(String className, List<? extends Element> fields) {
+
+//        Serialize xmlModelName = clazz.getAnnotation(Serialize.class);
+//        String modelName = xmlModelName.value().isEmpty()
+//                ? lowerCaseFirstLetter(clazz.getSimpleName())
+//                : xmlModelName.value();
+
+        StringBuilder methodBuilder = new StringBuilder();
+
+        methodBuilder.append("\tpublic String json(%s o) {\n".formatted(className));
+        methodBuilder.append("\t\treturn \"{\" +\n");
+
+        for (Element field : fields) {
+            String getter = ReflectionUtils.getGetterName(field);
+            String propertyName = ReflectionUtils.getPropertyName(field);
+
+            methodBuilder.append("""
+                    \t\t\t"\\"%s\\": \\"" + o.%s() + "\\"," +
+                    """.formatted(propertyName, getter));
+        }
+        methodBuilder.append("\t\t\"}\";\n");
+        methodBuilder.append("\t}\n");
+        return methodBuilder.toString();
     }
 }
