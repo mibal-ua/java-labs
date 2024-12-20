@@ -1,7 +1,7 @@
-package ua.mibal.serializer.component;
+package ua.mibal.serializer.reflection.component;
 
-import ua.mibal.serializer.annotation.XmlModel;
-import ua.mibal.serializer.exception.SerializationException;
+import ua.mibal.serializer.reflection.annotation.XmlModel;
+import ua.mibal.serializer.reflection.exception.SerializationException;
 
 /**
  * @author Mykhailo Balakhon

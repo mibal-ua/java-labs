@@ -1,14 +1,14 @@
-package ua.mibal.serializer;
+package ua.mibal.serializer.reflection;
 
 import lombok.Builder;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.xmlunit.assertj3.XmlAssert;
-import ua.mibal.serializer.annotation.Field;
-import ua.mibal.serializer.exception.SerializationException;
-import ua.mibal.serializer.model.JsonModel;
-import ua.mibal.serializer.model.XmlModel;
+import ua.mibal.serializer.reflection.annotation.Field;
+import ua.mibal.serializer.reflection.exception.SerializationException;
+import ua.mibal.serializer.reflection.model.JsonModel;
+import ua.mibal.serializer.reflection.model.XmlModel;
 
 import java.io.Serializable;
 
@@ -133,7 +133,7 @@ public class SerializerTest {
     }
 
     @Builder
-    @ua.mibal.serializer.annotation.XmlModel("test")
+    @ua.mibal.serializer.reflection.annotation.XmlModel("test")
     private static class TestClass implements Serializable {
         @Field
         private String name;
@@ -144,7 +144,7 @@ public class SerializerTest {
         private boolean hidden;
     }
 
-    @ua.mibal.serializer.annotation.XmlModel("lol123")
+    @ua.mibal.serializer.reflection.annotation.XmlModel("lol123")
     private static class TestNotSerializable {
         @Field
         private String name;

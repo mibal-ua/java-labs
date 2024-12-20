@@ -13,19 +13,19 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.openjdk.jmh.annotations.Mode.AverageTime;
 
 /**
- * This class contains benchmarks for XML serialization. It compares the performance 
- * of two serialization methods: reflection-based and generated code-based serialization.
+ * This class benchmarks the performance of JSON serialization. It compares two different serialization methods:
+ * reflection-based serialization and generated code-based serialization.
  *
  * @author Mykhailo Balakhon
  * @link <a href="mailto:mykhailo.balakhon@communify.us">mykhailo.balakhon@communify.us</a>
  */
 @State(Scope.Thread)
-public class SerializersXmlBenchmark {
+public class SerializersJsonBenchmark {
 
-    // Serializer using reflection
+    // Serializer using reflection-based method
     private static final Serializer reflection = new Serializer();
 
-    // Serializer using generated code
+    // Serializer using generated code-based method
     private static final ua.mibal.serializer.codegen.Serializer generated = Serializers.getInstance(ua.mibal.serializer.codegen.Serializer.class);
 
     // Sample Book object to be serialized
@@ -36,26 +36,26 @@ public class SerializersXmlBenchmark {
             .build();
 
     /**
-     * Benchmark method for measuring the average time of XML serialization using reflection-based serializer.
+     * Benchmark method that measures the average time taken for JSON serialization using reflection-based serialization.
      *
-     * @return the time taken to serialize the book object to XML using reflection
+     * @return the time taken to serialize the Book object into JSON using reflection-based method
      */
     @Benchmark
     @BenchmarkMode(AverageTime)
     @OutputTimeUnit(MILLISECONDS)
     public void benchmark_reflection() {
-        reflection.xml(book);
+        reflection.json(book);
     }
 
     /**
-     * Benchmark method for measuring the average time of XML serialization using generated code-based serializer.
+     * Benchmark method that measures the average time taken for JSON serialization using generated code-based serialization.
      *
-     * @return the time taken to serialize the book object to XML using generated code
+     * @return the time taken to serialize the Book object into JSON using generated code-based method
      */
     @Benchmark
     @BenchmarkMode(AverageTime)
     @OutputTimeUnit(MILLISECONDS)
     public void benchmark_generated() {
-        generated.xml(book);
+        generated.json(book);
     }
 }

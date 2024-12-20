@@ -1,4 +1,4 @@
-package ua.mibal.serializer.exception;
+package ua.mibal.serializer.reflection.exception;
 
 /**
  * @author Mykhailo Balakhon
