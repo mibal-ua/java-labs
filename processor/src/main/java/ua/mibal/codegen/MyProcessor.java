@@ -118,7 +118,7 @@ public class MyProcessor extends AbstractProcessor {
 
             if (String.class.getName().equals(fieldType)) {
                 methodBuilder.append("""
-                    \t\t\t"\\"%s\\": \\"" + o.%s() + "\\"," +
+                    \t\t\t"\\"%s\\": \\"" + o.%s() + "\\"" + "," +
                     """.formatted(propertyName, getter));
             } else {
                 methodBuilder.append("""
@@ -126,7 +126,7 @@ public class MyProcessor extends AbstractProcessor {
                     """.formatted(propertyName, getter));
             }
         }
-//        methodBuilder.deleteCharAt(methodBuilder.length() - 1);
+        methodBuilder.delete(methodBuilder.length() - 6, methodBuilder.length() - 1);
         methodBuilder.append("\t\t\"}\";\n");
         methodBuilder.append("\t}\n");
         return methodBuilder.toString();
